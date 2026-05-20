@@ -10,7 +10,7 @@ use TelegramBot\Api\Exception;
 
 try {
     $config = parse_ini_file(__DIR__ . "/config.ini");
-    $bot = new Client($config["TOKEN");
+    $bot = new Client($config["TOKEN"]);
 
     $bot->command('help', function ($message) use ($bot) {
         $msg = "Bot help you save text and format for any telegram post. Just forward any post to bot and get text file with markdown.";
