@@ -1,0 +1,33 @@
+{
+  "name": "pwsdotru/getformat_bot",
+  "description": "Telegram Bot for get format of forwarded message",
+  "type": "project",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Aleksandr Novikov",
+      "email": "pwsdotru@gmail.com",
+      "homepage": "https://github.com/pwsdotru"
+    }
+  ],
+  "keywords": [
+    "telegram",
+    "bot",
+    "format",
+    "markdown"
+  ],
+  "require": {
+    "php": ">=8.0",
+    "telegram-bot/api": "*"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "3.5.* || 3.6.*"
+  },
+  "scripts": {
+    "style:check": "vendor/bin/phpcs",
+    "style:fix": "vendor/bin/phpcbf",
+    "git:prepush": [
+      "@style:check"
+    ]
+  }
+}
