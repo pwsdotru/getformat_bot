@@ -11,7 +11,7 @@ class TelegramMarkdown
 
     private $_parsed;
 
-    public function __construct(string $text, $entities)
+    public function __construct(string? $text, array? $entities)
     {
         $this->_text = $text;
         $this->_entities = $entities;
@@ -27,7 +27,11 @@ class TelegramMarkdown
         if (empty($this->_entities)) {
             $this->_parsed .= mb_substr($this->_text, $offset);
         }
-        $entity = array_shift($this->_entities);
+        if (null !== $this->_entities) {
+            $entity = array_shift($this->_entities);
+        } else {
+            $entity = null;
+        }
 
         if ($entity && $entity != null) {
             $this->_parsed .= mb_substr($this->_text, $offset, $entity->getOffset() - $offset);
