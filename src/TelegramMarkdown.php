@@ -11,7 +11,7 @@ class TelegramMarkdown
 
     private $_parsed;
 
-    public function __construct(string? $text, array? $entities)
+    public function __construct(?string $text, ?array $entities)
     {
         $this->_text = $text;
         $this->_entities = $entities;
