@@ -3,10 +3,11 @@
 declare(strict_types=1);
 
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
+require_once(dirname(__DIR__) . "/src/TelegramMarkdown.php");
 
 use TelegramBot\Api\Client;
 use TelegramBot\Api\Exception;
-
+use src\TelegramMarkdown;
 
 try {
     $config = parse_ini_file(__DIR__ . "/config.ini");
@@ -44,72 +45,6 @@ try {
     });
     $bot->run();
 } catch (Exception $e) {
-    printf("Exception: %s\n\n", $e->getMessage());
+    printf("Exception: %s on %s:%d\n\n", $e->getMessage(), $e->getFile(), $e->getLine());
     exit(1);
-}
-
-
-class TelegramMarkdown
-{
-    private $_text;
-    private $_entities;
-
-    private $_parsed;
-
-    public function __construct($text, $entities)
-    {
-        $this->_text = $text;
-        $this->_entities = $entities;
-        $this->_parsed = '';
-        $this->parse();
-    }
-
-    private function parse($offset = 0)
-    {
-        if (empty($this->_entities)) {
-            $this->_parsed .= mb_substr($this->_text, $offset);
-        }
-        $entity = array_shift($this->_entities);
-
-        if ($entity && $entity != null) {
-            $this->_parsed .= mb_substr($this->_text, $offset, $entity->getOffset() - $offset);
-
-            $text = mb_substr($this->_text, $entity->getOffset(), $entity->getLength());
-
-            switch ($entity->getType()) {
-                case "bold":
-                    $text = $this->bold($text);
-                    break;
-                case "italic":
-                    $text = $this->italic($text);
-                    break;
-                case "code":
-                    $text = $this->code($text);
-                    break;
-            }
-
-            $this->_parsed .= $text;
-            $this->parse($entity->getOffset() + $entity->getLength());
-        }
-    }
-
-    private function bold($text)
-    {
-        return "**" . $text . "**";
-    }
-
-    private function italic($text)
-    {
-        return "__" . $text . "__";
-    }
-
-    private function code($text)
-    {
-        return "`" . $text . "`";
-    }
-
-    public function getCode()
-    {
-        return $this->_parsed;
-    }
 }
