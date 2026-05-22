@@ -55,22 +55,22 @@ class TelegramMarkdown
         }
     }
 
-    private function bold($text)
+    private function bold(string $text): string
     {
         return "**" . $text . "**";
     }
 
-    private function italic($text)
+    private function italic(string $text): string
     {
         return "__" . $text . "__";
     }
 
-    private function code($text)
+    private function code(string $text): string
     {
         return "`" . $text . "`";
     }
 
-    public function getCode()
+    public function getCode(): string
     {
         return $this->_parsed;
     }
